@@ -1,5 +1,7 @@
 package pl.java.scalatech.repository.impl;
 
+import static org.assertj.core.util.Preconditions.checkNotNullOrEmpty;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.Predicate;
@@ -30,7 +32,8 @@ public class SearchUserRepositoryImpl implements SearchUserRepository {
     }
 
     @Override
-    public long coungByLogin(String login) {
+    public long countByLogin(String login) {
+        checkNotNullOrEmpty(login);
         return users.stream().filter(p -> p.getLogin().contains(login)).count();
     }
 

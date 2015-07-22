@@ -12,7 +12,7 @@ public interface SearchUserRepository {
 
     long countAll();
 
-    long coungByLogin(String login);
+    long countByLogin(String login);
 
     BigDecimal sumSalaryBySkill(Skill skill);
 

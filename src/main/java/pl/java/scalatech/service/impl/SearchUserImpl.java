@@ -28,7 +28,7 @@ public class SearchUserImpl implements SearchUser {
 
     @Override
     public long coungByLogin(String login) {
-        return searchUserRepository.coungByLogin(login);
+        return searchUserRepository.countByLogin(login);
     }
 
     @Override
