@@ -16,4 +16,6 @@ public interface SearchUserRepository {
 
     BigDecimal sumSalaryBySkill(Skill skill);
 
+    List<User> findByLoginLikeAndSalaryBetween(String loginPattern, BigDecimal low, BigDecimal high);
+
 }
