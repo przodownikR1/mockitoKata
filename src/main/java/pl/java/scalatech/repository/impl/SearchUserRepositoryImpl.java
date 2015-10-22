@@ -9,13 +9,16 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import com.google.common.collect.Lists;
+
+import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.domain.Skill;
 import pl.java.scalatech.domain.User;
 import pl.java.scalatech.repository.SearchUserRepository;
-
-import com.google.common.collect.Lists;
+import pl.java.scalatech.service.SearchArgs;
 
 @Component
+@Slf4j
 public class SearchUserRepositoryImpl implements SearchUserRepository {
     private List<User> users = Lists.newArrayList(new User(1l, "przodownik", BigDecimal.valueOf(200), 36, Skill.JAVA),
             new User(2l, "aga", BigDecimal.valueOf(30), 15, Skill.CSharp), new User(3l, "bak", BigDecimal.valueOf(2), 3, Skill.SQL), new User(4l, "money",
@@ -47,5 +50,19 @@ public class SearchUserRepositoryImpl implements SearchUserRepository {
         Predicate<User> salary = t -> t.getSalary().compareTo(low) > 0 && t.getSalary().compareTo(high) < 0;
         Predicate<User> loginLike = t -> t.getLogin().contains(loginPattern);
         return users.stream().filter(loginLike.and(salary)).collect(Collectors.toList());
+    }
+
+    @Override
+    public void testThrows(boolean x) {
+       if(x) {
+           throw new IllegalArgumentException();
+       }
+        log.info("test");
+    }
+
+    @Override
+    public void shouldArg(SearchArgs args) {
+        log.info("test : {}",args );
+
     }
 }
