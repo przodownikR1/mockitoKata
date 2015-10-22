@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.given;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.assertj.core.api.Assertions;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +22,11 @@ import pl.java.scalatech.repository.SearchUserRepository;
 public class MockitoArgMatchingTest {
     @Mock
     private SearchUserRepository searchUserRepository;
+
+    @Test
+    public void shouldInitMock() {
+        Assertions.assertThat(searchUserRepository).isNotNull();
+    }
 
     @Test
     public void shouldArgumentMatchingWork() {

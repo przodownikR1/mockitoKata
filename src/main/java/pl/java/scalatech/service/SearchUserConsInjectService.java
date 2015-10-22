@@ -6,8 +6,7 @@ import java.util.List;
 import pl.java.scalatech.domain.Skill;
 import pl.java.scalatech.domain.User;
 
-public interface SearchUser {
-
+public interface SearchUserConsInjectService {
     List<User> findByLogin(String login);
 
     long countAll();
@@ -17,5 +16,4 @@ public interface SearchUser {
     BigDecimal sumSalaryBySkill(Skill skill);
 
     List<User> findByLoginLikeAndSalaryBetween(String loginPattern, BigDecimal low, BigDecimal high);
-
 }

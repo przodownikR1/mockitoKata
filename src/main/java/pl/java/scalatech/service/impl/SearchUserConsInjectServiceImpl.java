@@ -6,20 +6,22 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.domain.Skill;
 import pl.java.scalatech.domain.User;
 import pl.java.scalatech.repository.SearchUserRepository;
-import pl.java.scalatech.service.SearchUser;
+import pl.java.scalatech.service.SearchUserConsInjectService;
 
 @Service
 @Slf4j
 @ToString
-public class SearchUserImpl implements SearchUser {
-    @Autowired
-    private  SearchUserRepository searchUserRepository;
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+public class SearchUserConsInjectServiceImpl implements SearchUserConsInjectService {
 
+    private final @NonNull SearchUserRepository searchUserRepository;
 
     @Override
     public List<User> findByLogin(String login) {
@@ -40,10 +42,8 @@ public class SearchUserImpl implements SearchUser {
     public BigDecimal sumSalaryBySkill(Skill skill) {
         return searchUserRepository.sumSalaryBySkill(skill);
     }
-
     @Override
     public List<User> findByLoginLikeAndSalaryBetween(String loginPattern, BigDecimal low, BigDecimal high) {
         return searchUserRepository.findByLoginLikeAndSalaryBetween(loginPattern, low, high);
     }
-
 }
