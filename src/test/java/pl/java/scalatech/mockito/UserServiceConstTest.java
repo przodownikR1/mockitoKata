@@ -3,6 +3,7 @@ package pl.java.scalatech.mockito;
 import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.List;
 
@@ -12,7 +13,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -37,7 +37,7 @@ public class UserServiceConstTest {
 
     @Before
     public void init() {
-        MockitoAnnotations.initMocks(this);
+        initMocks(this);
     }
 
     @Test
