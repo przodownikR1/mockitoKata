@@ -1,58 +1,77 @@
 buildscript {
-    ext {
-        springBootVersion = '1.2.5.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
-        classpath("io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE")
-    }
+		ext {
+				springBootVersion = '1.4.2.RELEASE'
+		}
+		repositories {
+				mavenCentral()
+		}
+		dependencies {
+				classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		}
 }
 
+
 apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'spring-boot' 
-apply plugin: 'io.spring.dependency-management' 
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 jar {
-    baseName = 'simpleServMockito'
-    version = '0.0.1-SNAPSHOT'
+		baseName = 'simpleServMockito'
+		version = '0.0.1-SNAPSHOT'
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-    mavenCentral()
+		mavenCentral()
 }
 
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-aop")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    runtime("com.h2database:h2")
-    testCompile("org.springframework.boot:spring-boot-starter-test") 
-    testCompile "org.springframework.boot:spring-boot-starter-test" 
-     
-    compile "org.projectlombok:lombok:1.16.4"
-    compile "com.google.guava:guava:18.0"
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.easytesting:fest-assert:1.4'
-    compile  "com.jayway.awaitility:awaitility:1.6.3" 
-    compile 'org.assertj:assertj-core:3.1.0' 
-    testCompile 'pl.pragmatists:JUnitParams:1.0.4'
-    compile 'org.mockito:mockito-core:1.10.19'
+		compile("org.springframework.boot:spring-boot-starter-aop")
+		compile("org.springframework.boot:spring-boot-starter-data-jpa")
+		runtime("com.h2database:h2")
+		testCompile("org.springframework.boot:spring-boot-starter-test")
+		testCompile "org.springframework.boot:spring-boot-starter-test"
+
+		compile "org.projectlombok:lombok:1.16.4"
+		compile 'com.google.guava:guava:20.+'
+
+		compile group: 'com.github.tomakehurst', name: 'wiremock', version: '2.4.1'
+
+		compile group: 'io.javaslang', name: 'javaslang', version: '2.0.5'
+
+		compile group: 'io.javaslang', name: 'javaslang-match', version: '2.0.5'
+
+		compile ("com.github.javafaker:javafaker:0.12")
+		testCompile('org.springframework.boot:spring-boot-starter-test')
+		testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
+
+		testCompile group: 'org.junit', name: 'junit5-api', version: '5.0.0-ALPHA'
+		testCompile group: 'org.junit', name: 'junit5-engine', version: '5.0.0-ALPHA'
+		testCompile group: 'org.junit', name: 'junit-console', version: '5.0.0-ALPHA'
+
+		compile  "com.jayway.awaitility:awaitility:1.6.3"
+		compile 'org.assertj:assertj-core:3.1.0'
+		testCompile 'pl.pragmatists:JUnitParams:1.0.4'
+		testCompile "org.mockito:mockito-core:2.+"
 }
 
+bootRun {
+		if (System.properties.containsKey('spring.profiles.active')) {
+				systemProperty "spring.profiles.active", System.properties['spring.profiles.active']
+		}
 
-eclipse {
-    classpath {
-         containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
-         containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
-    }
+		def stdOpts = ['-Dfile.encoding=UTF8', '-Xms128m', '-Xmx256m' ,'-XX:+UseG1GC']
+		def gcOpts = ['-verbose:gc','-XX:+PrintGCDetails', '-XX:+PrintHeapAtGC',
+								'-XX:+PrintGCDateStamps', '-XX:+PrintTenuringDistribution',
+								'-XX:+PrintClassHistogram', '-Xloggc:gc.log']
+
+		jvmArgs = stdOpts + gcOpts
+
+		if ( project.hasProperty('jvmArgs') ) {
+				jvmArgs project.jvmArgs.split('\\s+')
+		}
+
 }
 
-task wrapper(type: Wrapper) {
-
-}

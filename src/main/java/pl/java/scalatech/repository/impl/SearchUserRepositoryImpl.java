@@ -1,5 +1,7 @@
 package pl.java.scalatech.repository.impl;
 
+import static com.google.common.collect.Lists.newArrayList;
+import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.util.Preconditions.checkNotNullOrEmpty;
 
 import java.math.BigDecimal;
@@ -10,6 +12,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.domain.Skill;
@@ -20,13 +23,14 @@ import pl.java.scalatech.service.SearchArgs;
 @Component
 @Slf4j
 public class SearchUserRepositoryImpl implements SearchUserRepository {
-    private List<User> users = Lists.newArrayList(new User(1l, "przodownik", BigDecimal.valueOf(200), 36, Skill.JAVA),
-            new User(2l, "aga", BigDecimal.valueOf(30), 15, Skill.CSharp), new User(3l, "bak", BigDecimal.valueOf(2), 3, Skill.SQL), new User(4l, "money",
-                    BigDecimal.valueOf(660), 37, Skill.JAVA));
+    private List<User> users = newArrayList(new User(1l, "przodownik", valueOf(200), 36, Skill.JAVA),
+            new User(2l, "aga", valueOf(30), 15, Skill.CSharp), new User(3l, "bak", valueOf(2), 3, Skill.SQL), new User(4l, "money",
+                    valueOf(660), 37, Skill.JAVA));
 
     @Override
     public List<User> findByLogin(String login) {
         return users.stream().filter(p -> p.getLogin().contains(login)).collect(Collectors.toList());
+        
     }
 
     @Override
@@ -49,6 +53,7 @@ public class SearchUserRepositoryImpl implements SearchUserRepository {
     public List<User> findByLoginLikeAndSalaryBetween(String loginPattern, BigDecimal low, BigDecimal high) {
         Predicate<User> salary = t -> t.getSalary().compareTo(low) > 0 && t.getSalary().compareTo(high) < 0;
         Predicate<User> loginLike = t -> t.getLogin().contains(loginPattern);
+        
         return users.stream().filter(loginLike.and(salary)).collect(Collectors.toList());
     }
 
