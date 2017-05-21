@@ -19,7 +19,7 @@ public interface SearchUserRepository {
 
     List<User> findByLoginLikeAndSalaryBetween(String loginPattern, BigDecimal low, BigDecimal high);
 
-    public void testThrows(boolean x) ;
+    public void testThrows(boolean x);
 
     void shouldArg(SearchArgs args);
 

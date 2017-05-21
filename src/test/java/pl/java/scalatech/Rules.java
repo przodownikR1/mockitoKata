@@ -26,10 +26,10 @@ public class Rules {
     @Rule
     public TestName testName = new TestName();
     @Rule
-    public TestWatcher testWatcher = new TestWatcher() {
-    };
+    public TestWatcher testWatcher = new TestWatcher() {};
     @Rule
-    public Timeout timeout = new Timeout(0);
+    public Timeout timeout = new Timeout(
+            0);
 
     @Test
     @Parameters("test")
